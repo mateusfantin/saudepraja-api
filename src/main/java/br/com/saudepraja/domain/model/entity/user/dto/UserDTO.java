@@ -184,4 +184,5 @@ public class UserDTO implements Serializable {
 
     public interface DefaultUserGroup {}
     public interface DefaultCustomerGroup {}
+    public interface DefaultMedicGroup{}
 }

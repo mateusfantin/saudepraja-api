@@ -4,6 +4,9 @@ import br.com.saudepraja.domain.model.entity.user.enumeration.UserTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @EqualsAndHashCode

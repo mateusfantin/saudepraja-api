@@ -2,6 +2,7 @@ package br.com.saudepraja.domain.model.entity.user.enumeration;
 
 public enum UserTypeEnum {
 
+    ADMIN,
     CUSTOMER,
     MEDIC,
     PROVIDER;

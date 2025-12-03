@@ -4,7 +4,7 @@ spring:
     name: saude-praja-api
   jpa:
     hibernate:
-      ddl-auto:
+      ddl-auto: update
     show-sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/saudepraja
@@ -18,6 +18,8 @@ springdoc:
     groups-order: DESC
     operationsSorter: method
     path: /swagger-ui.html
+
+
 
 logging:
   level:

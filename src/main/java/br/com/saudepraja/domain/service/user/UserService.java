@@ -6,6 +6,7 @@ import br.com.saudepraja.domain.model.repository.user.UsersRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -23,6 +24,9 @@ public class UserService {
     @Autowired
     private MedicService medicService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private Users findUsersById(final Long id) throws Exception {
         return usersRepository.findById(id).orElseThrow(() -> new Exception("Users not found. Id:" + id));
     }
@@ -33,8 +37,8 @@ public class UserService {
         Users users = Users.builder()
             .withName(userDTO.getName())
             .withEmail(userDTO.getEmail())
-            .withPassword(encodePassword(userDTO.getPassword()))
-            .build();
+            .withPassword(passwordEncoder.encode(userDTO.getPassword()))
+            .withUserType(userDTO.getUserType()).build();
 
         usersRepository.save(users);
 
@@ -82,7 +86,6 @@ public class UserService {
     }
 
     private String encodePassword(String password) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
-        return encoder.encode(password);
+        return new BCryptPasswordEncoder().encode(password);
     }
 }
