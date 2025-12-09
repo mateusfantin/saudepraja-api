@@ -35,6 +35,7 @@
         <mockito-core.version>5.20.0</mockito-core.version>
         <mockito-junit-jupiter.version>5.17.0</mockito-junit-jupiter.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+        <aws-java-sdk-s3.version>1.12.368</aws-java-sdk-s3.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -111,6 +112,11 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-connector-java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>${aws-java-sdk-s3.version}</version>
         </dependency>
 	</dependencies>
 

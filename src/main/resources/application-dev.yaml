@@ -1,0 +1,40 @@
+spring:
+  application:
+    server-port: 8080
+    name: saude-praja-api
+  jpa:
+    hibernate:
+      ddl-auto: update
+    #show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:8080:3306/saudepraja_db
+    username: ${MYSQL_DB_USERNAME}
+    password: ${MYSQL_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-request-size: 30MB
+springdoc:
+  version: '@springdoc.version@'
+  show-actuator: true
+  swagger-ui:
+    groups-order: DESC
+    operationsSorter: method
+    path: /swagger-ui.html
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+saudepraja:
+  auth:
+    provider-url: "http://localhost:8080"
+  storage:
+    s3:
+      id-chave-acesso: ${S3_STORAGE_KEY}
+      chave-acesso-secreta: ${S3_STORAGE_KEY_PASSWORD}
+      bucket: ${S3_STORAGE_BUCKET_NAME}
+      regiao: ${S3_STORAGE_REGION}
+      diretorio-fotos: ${S3_STORAGE_FOLDER}
