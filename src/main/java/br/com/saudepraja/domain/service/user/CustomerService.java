@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Service
-class CustomerService {
+public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;

@@ -4,6 +4,7 @@ import br.com.saudepraja.api.core.storage.StorageProperties;
 import br.com.saudepraja.domain.exception.SaudePrajaBusinessException;
 import br.com.saudepraja.domain.model.entity.util.Storable;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class StorageAmazonS3Service {
         String path = this.getPath(storable.getName());
 
         var objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentType(storable.getContentType());
 
         var putObjectRequest = new PutObjectRequest(
                 storageProperties.getS3().getBucket(),
@@ -45,8 +47,16 @@ public class StorageAmazonS3Service {
         }
     }
 
-    public void remover(Long schedulingId) {
+    public void remover(Storable storable) {
+        var deleteObjectRequest = new DeleteObjectRequest(
+                storageProperties.getS3().getBucket(),
+                storable.getName());
 
+        try {
+            amazonS3.deleteObject(deleteObjectRequest);
+        } catch (Exception ex) {
+            throw new SaudePrajaBusinessException("Não foi possível deletar o arquivo");
+        }
     }
 
     private String getPath(String nomeArquivo) {

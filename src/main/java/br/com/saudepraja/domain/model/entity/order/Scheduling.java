@@ -2,6 +2,7 @@ package br.com.saudepraja.domain.model.entity.order;
 
 import br.com.saudepraja.domain.model.entity.user.enumeration.MedicSpecialtyEnum;
 import br.com.saudepraja.domain.model.entity.util.EntityDefault;
+import br.com.saudepraja.domain.model.entity.util.Storable;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +36,6 @@ public class Scheduling extends EntityDefault {
     private String telephone;
 
     @OneToMany(mappedBy = "id")
-    private List<Upload> upload;
+    private List<Storable> storables;
 
 }

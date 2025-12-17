@@ -23,4 +23,7 @@ public class Storable extends EntityDefault {
 
     @Transient
     private InputStream inputStream;
+
+    @Transient
+    private String contentType;
 }

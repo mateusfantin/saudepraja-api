@@ -1,7 +1,6 @@
 package br.com.saudepraja.api.controller;
 
 import br.com.saudepraja.domain.model.entity.order.SchedulingDTO;
-import br.com.saudepraja.infrastructure.StorageAmazonS3Service;
 import br.com.saudepraja.service.SchedulingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,8 +47,9 @@ public class SchedulingController {
         return ResponseEntity.created(uriResponse).build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CUSTOMER')")
     @Operation(summary = "Upload files", description = "Upload files")
-    @PostMapping(path = "/{schedulingId}/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
+    @PutMapping(path = "/{schedulingId}/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "400", description = "Error"),
@@ -56,11 +57,10 @@ public class SchedulingController {
     })
     public ResponseEntity<Void> upload(
             @Parameter(name = "schedulingId", description = "Id of scheduling", required = true)
-            @PathVariable final Long schedulingId,
-            @Parameter(name = "multiPartFiles", description = "Collection of multipart files", required = true)
-            List<MultipartFile> multipartFiles) {
+            @PathVariable(name = "schedulingId", required = true) final Long schedulingId,
+            @RequestParam("file") MultipartFile file) {
 
-        schedulingService.upload(schedulingId, multipartFiles);
+        schedulingService.upload(schedulingId, file);
         return ResponseEntity.ok().build();
     }
 

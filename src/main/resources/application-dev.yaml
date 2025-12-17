@@ -6,14 +6,17 @@ spring:
     hibernate:
       ddl-auto: update
     #show-sql: true
+    #format_sql: true
   datasource:
-    url: jdbc:mysql://localhost:8080:3306/saudepraja_db
+    url: jdbc:mysql://localhost:3306/saudepraja_db
     username: ${MYSQL_DB_USERNAME}
     password: ${MYSQL_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-  servlet:
-    multipart:
-      max-request-size: 30MB
+servlet:
+  multipart:
+    enabled: true
+    max-file-size: 10MB
+    max-request-size: 30MB
 springdoc:
   version: '@springdoc.version@'
   show-actuator: true
@@ -21,7 +24,8 @@ springdoc:
     groups-order: DESC
     operationsSorter: method
     path: /swagger-ui.html
-
+server:
+  max-http-request-header-size: 1000KB
 logging:
   level:
     org:

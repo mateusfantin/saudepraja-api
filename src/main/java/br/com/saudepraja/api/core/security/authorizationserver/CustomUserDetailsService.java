@@ -2,14 +2,17 @@ package br.com.saudepraja.api.core.security.authorizationserver;
 
 import br.com.saudepraja.domain.model.entity.user.Users;
 import br.com.saudepraja.domain.model.repository.user.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+    @Autowired
     private final UsersRepository repository;
 
     public CustomUserDetailsService(UsersRepository repository) {

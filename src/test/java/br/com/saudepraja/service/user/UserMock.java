@@ -1,7 +1,6 @@
 package br.com.saudepraja.service.user;
 
 import br.com.saudepraja.domain.model.entity.user.Customer;
-import br.com.saudepraja.domain.model.entity.user.Customers;
 import br.com.saudepraja.domain.model.entity.user.Users;
 import br.com.saudepraja.domain.model.entity.user.enumeration.UserTypeEnum;
 

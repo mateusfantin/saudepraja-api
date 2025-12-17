@@ -36,6 +36,10 @@ public class SchedulingService {
 
     }
 
+    public void upload(Long schedulingId, MultipartFile multipartFile) {
+        this.upload(schedulingId, List.of(multipartFile));
+    }
+
     public void upload(Long schedulingId, List<MultipartFile> multipartFiles) {
         Scheduling scheduling = schedulingRepository.findById(schedulingId)
                 .orElseThrow(() -> new SaudePrajaBusinessException("Scheduling not found"));
@@ -47,7 +51,7 @@ public class SchedulingService {
         multipartFiles.forEach(item -> {
             try {
                 String newName = "SCHEDULING_" + schedulingId + "_" + x.getAndIncrement();
-                Storable storable = new Storable(item.getName(), item.getInputStream());
+                Storable storable = new Storable(item.getName(), item.getInputStream(), item.getContentType());
                 storables.add(storable);
             } catch (IOException e) {
                 throw new RuntimeException(e);
