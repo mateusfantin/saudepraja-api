@@ -23,10 +23,10 @@ public class Customer {
     @JoinColumn(name = "id")
     private Users users;
 
-    @Column(name = "telephone", length = 11, insertable = true, nullable = false)
+    @Column(name = "telephone", length = 11, nullable = false)
     private String telephone;
 
-    @Column(name = "cpf", length = 11, insertable = true, nullable = false)
+    @Column(name = "cpf", length = 11, nullable = false)
     private String cpf;
 
     @Column(name = "birthday")

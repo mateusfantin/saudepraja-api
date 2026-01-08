@@ -31,12 +31,12 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "400", description = "Invalid body"),
-            @ApiResponse(responseCode = "200", description = "Successful operation")
+            @ApiResponse(responseCode = "201", description = "Successful operation")
     })
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserDTO> create(
             @Parameter(description = "Body with user information", required = true)
-            @RequestBody(required = true) UserDTO userDTO) {
+            @RequestBody UserDTO userDTO) {
         UserDTO userDTOResponse = userService.save(userDTO);
 
         URI uri = ServletUriComponentsBuilder

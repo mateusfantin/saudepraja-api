@@ -1,14 +1,18 @@
 spring:
   application:
-    server-port: 8080
     name: saude-praja-api
   jpa:
     hibernate:
       ddl-auto: update
+      database-platform: org.hibernate.dialect.MySQLDialect
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQLDialect
     #show-sql: true
     #format_sql: true
   datasource:
-    url: jdbc:mysql://localhost:3306/saudepraja_db
+    #url: jdbc:mysql://host.docker.internal:3306/saudepraja_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/saudepraja_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: ${MYSQL_DB_USERNAME}
     password: ${MYSQL_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -25,12 +29,18 @@ springdoc:
     operationsSorter: method
     path: /swagger-ui.html
 server:
+  port: 8080
   max-http-request-header-size: 1000KB
 logging:
   level:
     org:
       springframework:
         security: DEBUG
+
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: 86400000 # Um dia (1000 * 60 * 60 * 24) em milesegundos
 
 saudepraja:
   auth:

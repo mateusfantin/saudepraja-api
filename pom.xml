@@ -36,6 +36,7 @@
         <mockito-junit-jupiter.version>5.17.0</mockito-junit-jupiter.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <aws-java-sdk-s3.version>1.12.368</aws-java-sdk-s3.version>
+		<dockerfile-maven-version>1.4.13</dockerfile-maven-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -109,8 +110,8 @@
             <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
             <version>${mysql-connector-java.version}</version>
         </dependency>
         <dependency>

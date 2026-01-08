@@ -4,9 +4,6 @@ import br.com.saudepraja.domain.model.entity.user.enumeration.UserTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -21,14 +18,14 @@ public class Users {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 150, insertable = true, nullable = false)
+    @Column(name = "name", length = 150, nullable = false)
     private String name;
 
-    @Column(name = "email", length = 150, insertable = true, nullable = false)
+    @Column(name = "email", length = 150, nullable = false)
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_type", length = 9, insertable = true, nullable = false)
+    @Column(name = "user_type", length = 9, nullable = false)
     private UserTypeEnum userType;
 
     @OneToOne(mappedBy = "users")

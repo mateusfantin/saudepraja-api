@@ -4,7 +4,6 @@ import com.amazonaws.regions.Regions;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;

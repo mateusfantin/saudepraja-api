@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/scheduling")
@@ -25,7 +24,30 @@ public class SchedulingController {
     @Autowired
     private SchedulingService schedulingService;
 
-    @Operation(summary = "Create a new Scheduling authenticated", description = "Create a new Scheduling authenticated")
+    @PreAuthorize("has ROLE('ROLE_CUSTOMER')")
+    @Operation(summary = "Create a new Scheduling user authenticated", description = "Create a new Scheduling user authenticated")
+    @PostMapping(path = "/users/authenticated", consumes = "application/json", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "400", description = "Invalid body"),
+            @ApiResponse(responseCode = "201", description = "Created")
+    })
+    public ResponseEntity<SchedulingDTO> schedulingAuthenticatedUser(
+            @Parameter(description = "SchedulingDTO", required = true)
+            @RequestBody @Valid SchedulingDTO schedulingDTO) {
+
+        schedulingService.save(schedulingDTO);
+
+        URI uriResponse = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/")
+                .buildAndExpand(schedulingDTO)
+                .toUri();
+
+        return ResponseEntity.created(uriResponse).build();
+    }
+
+    @Operation(summary = "Create a new Scheduling user unauthenticated", description = "Create a new Scheduling user unauthenticated")
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
@@ -36,7 +58,7 @@ public class SchedulingController {
             @Parameter(description = "SchedulingDTO", required = true)
             @RequestBody @Valid SchedulingDTO schedulingDTO) {
 
-        schedulingService.save(schedulingDTO);
+        schedulingService.save(schedulingDTO, SchedulingDTO.UnauthenticatedUserGroup.class);
 
         URI uriResponse = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -57,7 +79,7 @@ public class SchedulingController {
     })
     public ResponseEntity<Void> upload(
             @Parameter(name = "schedulingId", description = "Id of scheduling", required = true)
-            @PathVariable(name = "schedulingId", required = true) final Long schedulingId,
+            @PathVariable(name = "schedulingId") final Long schedulingId,
             @RequestParam("file") MultipartFile file) {
 
         schedulingService.upload(schedulingId, file);

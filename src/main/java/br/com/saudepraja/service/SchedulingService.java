@@ -1,13 +1,18 @@
 package br.com.saudepraja.service;
 
+import br.com.saudepraja.api.core.security.authorizationserver.CustomUserDetailsService;
+import br.com.saudepraja.api.core.security.authorizationserver.SaudeprajaSecurity;
+import br.com.saudepraja.api.core.security.authorizationserver.UserDetailsInfo;
 import br.com.saudepraja.domain.exception.SaudePrajaBusinessException;
+import br.com.saudepraja.domain.model.entity.order.Scheduling;
 import br.com.saudepraja.domain.model.entity.order.SchedulingDTO;
 import br.com.saudepraja.domain.model.entity.util.Storable;
 import br.com.saudepraja.domain.model.repository.SchedulingRepository;
-import br.com.saudepraja.domain.model.entity.order.Scheduling;
 import br.com.saudepraja.infrastructure.StorageAmazonS3Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,12 +29,25 @@ public class SchedulingService {
     @Autowired
     private StorageAmazonS3Service storageAmazonS3Service;
 
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
     public void save(SchedulingDTO schedulingDTO) {
+        this.save(schedulingDTO, null);
+    }
+
+    public void save(SchedulingDTO schedulingDTO, @Validated Object object) {
+
+        Authentication auth = SaudeprajaSecurity.getCredentials();
+        UserDetailsInfo userDetailsInfo = customUserDetailsService.loadUserByUsername(auth.getName());
 
         Scheduling scheduling = Scheduling.builder()
+                .userId(userDetailsInfo.getUserId())
                 .datScheduling(schedulingDTO.datScheduling())
                 .medicSpecialty(schedulingDTO.medicSpecialty())
                 .obs(schedulingDTO.obs())
+                .cpf(schedulingDTO.cpf())
+                .telephone(schedulingDTO.telefone())
                 .build();
 
         schedulingRepository.save(scheduling);
@@ -41,8 +59,13 @@ public class SchedulingService {
     }
 
     public void upload(Long schedulingId, List<MultipartFile> multipartFiles) {
-        Scheduling scheduling = schedulingRepository.findById(schedulingId)
-                .orElseThrow(() -> new SaudePrajaBusinessException("Scheduling not found"));
+        if(!SaudeprajaSecurity.isAdmin()) {
+            Authentication auth = SaudeprajaSecurity.getCredentials();
+            UserDetailsInfo userDetailsInfo = customUserDetailsService.loadUserByUsername(auth.getName());
+
+            Scheduling scheduling = schedulingRepository.findById_AndUserId(schedulingId, userDetailsInfo.getUserId())
+                    .orElseThrow(() -> new SaudePrajaBusinessException("Scheduling not found"));
+        }
 
         List<Storable> storables = new ArrayList<>();
         this.verifyUploadFiles(multipartFiles);
@@ -59,7 +82,7 @@ public class SchedulingService {
         });
 
         storables.forEach(storable -> {
-            storageAmazonS3Service.store(storable);
+//            storageAmazonS3Service.store(storable);
         });
     }
 

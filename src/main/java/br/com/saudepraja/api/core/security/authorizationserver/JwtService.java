@@ -2,6 +2,7 @@ package br.com.saudepraja.api.core.security.authorizationserver;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,8 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private final String secret = "F0F1C56AB1E8D953DA4F255C8B4A99F764BD306359D6747E5C8C1D939EE6272A";
-    private final long expiration = 86400000; // 1 dia
+    @Autowired
+    private JwtProperties jwtProperties;
 
     public String generateToken(UserDetails user) {
 
@@ -27,14 +28,14 @@ public class JwtService {
                 .claim("role", role)
                 .setIssuer("saudepraja")
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SignatureAlgorithm.HS256, secret.getBytes())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration()))
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecret().getBytes())
                 .compact();
     }
 
     public String extractUsername(String token) {
         return Jwts.parser()
-                .setSigningKey(secret.getBytes())
+                .setSigningKey(jwtProperties.getSecret().getBytes())
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();

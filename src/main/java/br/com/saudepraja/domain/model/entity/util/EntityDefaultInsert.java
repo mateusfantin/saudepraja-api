@@ -1,13 +1,15 @@
 package br.com.saudepraja.domain.model.entity.util;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode
 @MappedSuperclass
 public class EntityDefaultInsert {
 
-    @Id
+    @Id @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

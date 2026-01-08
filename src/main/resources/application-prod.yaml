@@ -5,6 +5,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      dialect: org.hibernate.dialect.MySQLDialect
       #show-sql: true
       #format_sql: true
   datasource:
@@ -31,6 +32,11 @@ logging:
     org:
       springframework:
         security: DEBUG
+
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: 86400000 # Um dia (1000 * 60 * 60 * 24) em milesegundos
 
 saudepraja:
   auth:

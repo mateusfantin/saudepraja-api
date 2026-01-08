@@ -27,30 +27,30 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private Users findUsersById(final Long id) throws Exception {
-        return usersRepository.findById(id).orElseThrow(() -> new Exception("Users not found. Id:" + id));
+    private Users findUsersById(final Long userId) throws Exception {
+        return usersRepository.findById(userId).orElseThrow(() -> new Exception("Users not found. Id:" + userId));
     }
 
     public UserDTO save(UserDTO userDTO) {
         Objects.requireNonNull(userDTO);
 
-        Users users = Users.builder()
+        Users user = Users.builder()
             .withName(userDTO.getName())
             .withEmail(userDTO.getEmail())
             .withPassword(passwordEncoder.encode(userDTO.getPassword()))
             .withUserType(userDTO.getUserType()).build();
 
-        usersRepository.save(users);
+        usersRepository.save(user);
 
         if(userDTO.getUserType().isCustomer()) {
-            customerService.save(users, userDTO.getCustomerDTO());
+            customerService.save(user, userDTO.getCustomerDTO());
         }
 
         if(userDTO.getUserType().isMedic()) {
-            medicService.save(users, userDTO.getMedicDTO());
+            medicService.save(user, userDTO.getMedicDTO());
         }
 
-        return this.buildUserDTO(users);
+        return this.buildUserDTO(user);
     }
 
     public UserDTO update(UserDTO userDTO) throws Exception {
@@ -59,29 +59,29 @@ public class UserService {
             throw new IllegalArgumentException("Please inform the Id");
         }
 
-        Users users = this.findUsersById(userDTO.getId());
+        Users user = this.findUsersById(userDTO.getId());
         if(userDTO.getName() != null) {
-            users.setName(userDTO.getName());
+            user.setName(userDTO.getName());
         }
         if(userDTO.getEmail() != null) {
-            users.setEmail(userDTO.getEmail());
+            user.setEmail(userDTO.getEmail());
         }
 
-        usersRepository.save(users);
-        return this.buildUserDTO(users);
+        usersRepository.save(user);
+        return this.buildUserDTO(user);
     }
 
-    private UserDTO buildUserDTO(Users users) {
+    private UserDTO buildUserDTO(Users user) {
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(users.getId());
-        userDTO.setName(users.getName());
-        userDTO.setEmail(users.getEmail());
+        userDTO.setId(user.getId());
+        userDTO.setName(user.getName());
+        userDTO.setEmail(user.getEmail());
         return userDTO;
     }
 
-    public void delete(final Long usersId) throws Exception {
-        Objects.requireNonNull(usersId);
-        Users users = this.findUsersById(usersId);
+    public void delete(final Long userId) throws Exception {
+        Objects.requireNonNull(userId);
+        Users users = this.findUsersById(userId);
         usersRepository.delete(users);
     }
 
