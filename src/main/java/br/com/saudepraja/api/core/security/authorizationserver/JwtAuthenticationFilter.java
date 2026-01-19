@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -30,6 +32,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
+
+        List<String> publicUrls = Arrays.asList(SecurityConfig.getPublicUrls());
+        String path = request.getServletPath();
+
+        if(publicUrls.contains(path)) {
+            filterChain.doFilter(request, response);
+                return;
+        }
 
         String authHeader = request.getHeader("Authorization");
 

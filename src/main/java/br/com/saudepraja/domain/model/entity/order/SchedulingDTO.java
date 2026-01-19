@@ -17,23 +17,18 @@ public record SchedulingDTO(
         @NotNull(message = "A data de sua preferência deve ser informada")
         LocalDate datScheduling,
 
-        @Size(max = 30, message = "Favor não ultrapassar 30 caracteres na especialidade")
         @NotNull(message = "Favor fornecer a especialidade")
         MedicSpecialtyEnum medicSpecialty,
 
         @Size(max = 200, message = "Favor não ultrapassar 200 caracteres no campo de observação")
         String obs,
 
-        @NotNull(groups = UnauthenticatedUserGroup.class)
         @CPF
         String cpf,
 
         @Size(max = 13, message = "Favor não ultrapassar 13 caracteres no campo telefone")
-        @NotNull(groups = UnauthenticatedUserGroup.class)
         String telefone
 
 ) implements Serializable {
-
-        public interface UnauthenticatedUserGroup {}
 }
 

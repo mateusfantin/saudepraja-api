@@ -48,7 +48,7 @@ public class SchedulingController {
     }
 
     @Operation(summary = "Create a new Scheduling user unauthenticated", description = "Create a new Scheduling user unauthenticated")
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "/users/unauthenticated", consumes = "application/json", produces = "application/json")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "403", description = "Forbidden"),
             @ApiResponse(responseCode = "400", description = "Invalid body"),
@@ -58,7 +58,7 @@ public class SchedulingController {
             @Parameter(description = "SchedulingDTO", required = true)
             @RequestBody @Valid SchedulingDTO schedulingDTO) {
 
-        schedulingService.save(schedulingDTO, SchedulingDTO.UnauthenticatedUserGroup.class);
+        schedulingService.save(schedulingDTO);
 
         URI uriResponse = ServletUriComponentsBuilder
                 .fromCurrentRequest()

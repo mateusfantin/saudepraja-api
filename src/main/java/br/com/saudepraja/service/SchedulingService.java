@@ -11,11 +11,12 @@ import br.com.saudepraja.domain.model.repository.SchedulingRepository;
 import br.com.saudepraja.infrastructure.StorageAmazonS3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,21 +33,22 @@ public class SchedulingService {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+
     public void save(SchedulingDTO schedulingDTO) {
-        this.save(schedulingDTO, null);
-    }
+        Long userId = null;
+        boolean isAuthenticated = SaudeprajaSecurity.isAuthenticated();
 
-    public void save(SchedulingDTO schedulingDTO, @Validated Object object) {
-
-        Authentication auth = SaudeprajaSecurity.getCredentials();
-        UserDetailsInfo userDetailsInfo = customUserDetailsService.loadUserByUsername(auth.getName());
+        if(isAuthenticated) {
+            Authentication auth = SaudeprajaSecurity.getCredentials();
+            UserDetailsInfo userDetailsInfo = customUserDetailsService.loadUserByUsername(auth.getName());
+            userId = userDetailsInfo.getUserId();
+        }
 
         Scheduling scheduling = Scheduling.builder()
-                .userId(userDetailsInfo.getUserId())
+                .userId(userId)
                 .datScheduling(schedulingDTO.datScheduling())
                 .medicSpecialty(schedulingDTO.medicSpecialty())
                 .obs(schedulingDTO.obs())
-                .cpf(schedulingDTO.cpf())
                 .telephone(schedulingDTO.telefone())
                 .build();
 

@@ -23,5 +23,23 @@
 hs_err_pid*
 replay_pid*
 
+#other files
+.env
+
+# --- IntelliJ IDEA ---
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# --- Eclipse ---
+.metadata/
+.project
+.settings/
+.classpath
+
+# --- VS Code ---
+.vscode/
+
 target/
 **/target/

@@ -1,5 +1,5 @@
 #Versão da jdk utilizada no container
-FROM amazoncorretto:21-alpine-jdk
+FROM eclipse-temurin:21-jre-alpine
 
 #Diretório que será criado
 WORKDIR /app
