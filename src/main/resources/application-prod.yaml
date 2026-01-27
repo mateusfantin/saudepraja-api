@@ -9,9 +9,9 @@ spring:
       #show-sql: true
       #format_sql: true
   datasource:
-    url: jdbc:mysql://saudepraja-db.ce7oksw2k2ep.us-east-1.rds.amazonaws.com:3306/saudepraja_db
-    username: ${MYSQL_DB_USERNAME}
-    password: ${MYSQL_DB_PASSWORD}
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/${MYSQL_DATABASE:saudepraja}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
     multipart:
@@ -45,6 +45,6 @@ saudepraja:
     s3:
       id-chave-acesso: ${S3_STORAGE_KEY}
       chave-acesso-secreta: ${S3_STORAGE_KEY_PASSWORD}
-      bucket: ${S3_STORAGE_BUCKET_NAME}
-      regiao: ${S3_STORAGE_REGION}
-      diretorio-fotos: ${S3_STORAGE_FOLDER}
+      bucket: amzn-s3-saudepraja-bucket
+      regiao: us-east-1
+      diretorio-fotos: pedidos-exame
