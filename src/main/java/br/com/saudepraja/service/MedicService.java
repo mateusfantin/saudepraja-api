@@ -1,4 +1,4 @@
-package br.com.saudepraja.domain.service.user;
+package br.com.saudepraja.service;
 
 import br.com.saudepraja.domain.model.entity.user.Medic;
 import br.com.saudepraja.domain.model.entity.user.Users;

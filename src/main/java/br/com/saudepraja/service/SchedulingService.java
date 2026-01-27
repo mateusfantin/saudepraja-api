@@ -6,23 +6,28 @@ import br.com.saudepraja.api.core.security.authorizationserver.UserDetailsInfo;
 import br.com.saudepraja.domain.exception.SaudePrajaBusinessException;
 import br.com.saudepraja.domain.model.entity.order.Scheduling;
 import br.com.saudepraja.domain.model.entity.order.SchedulingDTO;
+import br.com.saudepraja.domain.model.entity.order.SchedulingInfoDTO;
+import br.com.saudepraja.domain.model.entity.user.Users;
 import br.com.saudepraja.domain.model.entity.util.Storable;
 import br.com.saudepraja.domain.model.repository.SchedulingRepository;
+import br.com.saudepraja.domain.service.user.utils.SaudePrajaUtils;
 import br.com.saudepraja.infrastructure.StorageAmazonS3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.security.Security;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class SchedulingService {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private SchedulingRepository schedulingRepository;
@@ -32,6 +37,9 @@ public class SchedulingService {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private PdfWriter pdfWriter;
 
 
     public void save(SchedulingDTO schedulingDTO) {
@@ -98,5 +106,32 @@ public class SchedulingService {
                 throw new SaudePrajaBusinessException("Extension type not allowed.");
             }
         });
+    }
+
+    public byte[] buildServiceGuide(SchedulingInfoDTO schedulingInfoDTO) throws SaudePrajaBusinessException {
+        Users user = userService.findUsersById(schedulingInfoDTO.customerId());
+//        Clinic clinic = clinicService.findById();
+        String uuid = String.valueOf(UUID.randomUUID());
+        Map<String, String> mapInfo = buildMapInfo(user, uuid, schedulingInfoDTO);
+        //implementar a busca do html no banco de dados
+        // implementar o salvamento da guia
+        return pdfWriter.generatePdf(null, mapInfo);
+    }
+
+    private Map<String, String> buildMapInfo(final Users user, final String uuid, SchedulingInfoDTO schedulingInfoDTO /*, final Clinic clinic*/) {
+        Map<String, String> mapInfo = new HashMap<>();
+        mapInfo.put("CLIENTE", user.getName());
+        mapInfo.put("CPF", user.getCustomer().getCpf());
+        Integer age = LocalDate.now().getYear() - user.getCustomer().getBirthday().getYear();
+        mapInfo.put("IDADE", String.valueOf(age));
+
+        mapInfo.put("DATA_AGENDAMENTO", SaudePrajaUtils.LocalDateTimeToString(schedulingInfoDTO.datScheduling(), SaudePrajaUtils.dayMontYearHourMinBRType));
+//        mapInfo.put("ENDERECO", clinic.getAdrress());
+//        mapInfo.put("CEP", clinic.getZipCode());
+//        mapInfo.put("CIDADE", clinic.getCity());
+        mapInfo.put("DAT_EMISSAO", SaudePrajaUtils.LocalDateTimeToString(LocalDateTime.now(), SaudePrajaUtils.dayMontYearHourMinBRType));
+        mapInfo.put("NUMERO_GUIA", uuid);
+
+        return mapInfo;
     }
 }

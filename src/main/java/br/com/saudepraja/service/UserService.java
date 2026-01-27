@@ -1,5 +1,6 @@
-package br.com.saudepraja.domain.service.user;
+package br.com.saudepraja.service;
 
+import br.com.saudepraja.domain.exception.SaudePrajaBusinessException;
 import br.com.saudepraja.domain.model.entity.user.Users;
 import br.com.saudepraja.domain.model.entity.user.dto.UserDTO;
 import br.com.saudepraja.domain.model.repository.user.UsersRepository;
@@ -27,8 +28,8 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private Users findUsersById(final Long userId) throws Exception {
-        return usersRepository.findById(userId).orElseThrow(() -> new Exception("Users not found. Id:" + userId));
+    public Users findUsersById(final Long userId) throws SaudePrajaBusinessException {
+        return usersRepository.findById(userId).orElseThrow(() -> new SaudePrajaBusinessException("Users not found. Id:" + userId));
     }
 
     public UserDTO save(UserDTO userDTO) {

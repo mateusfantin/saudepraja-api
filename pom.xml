@@ -37,6 +37,7 @@
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
         <aws-java-sdk-s3.version>1.12.368</aws-java-sdk-s3.version>
 		<dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+		<openhtmltopdf-pdfbox.version>1.0.10</openhtmltopdf-pdfbox.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -119,6 +120,12 @@
             <artifactId>aws-java-sdk-s3</artifactId>
             <version>${aws-java-sdk-s3.version}</version>
         </dependency>
+
+		<dependency>
+			<groupId>com.openhtmltopdf</groupId>
+			<artifactId>openhtmltopdf-pdfbox</artifactId>
+			<version>${openhtmltopdf-pdfbox.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

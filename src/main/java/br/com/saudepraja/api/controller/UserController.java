@@ -1,7 +1,7 @@
 package br.com.saudepraja.api.controller;
 
 import br.com.saudepraja.domain.model.entity.user.dto.UserDTO;
-import br.com.saudepraja.domain.service.user.UserService;
+import br.com.saudepraja.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

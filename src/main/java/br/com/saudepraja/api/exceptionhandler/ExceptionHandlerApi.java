@@ -18,8 +18,7 @@ public class ExceptionHandlerApi extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(SaudePrajaBusinessException.class)
     public ResponseEntity<?> handleSaudePrajaBusinessException(SaudePrajaBusinessException ex, WebRequest webRequest) {
-
-        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        HttpStatusCode status = HttpStatusCode.valueOf(422);
         String detail = ex.getMessage();
 
         Problem problem = Problem.builder()

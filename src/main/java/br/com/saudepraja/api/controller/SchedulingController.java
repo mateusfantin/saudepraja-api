@@ -1,6 +1,7 @@
 package br.com.saudepraja.api.controller;
 
 import br.com.saudepraja.domain.model.entity.order.SchedulingDTO;
+import br.com.saudepraja.domain.model.entity.order.SchedulingInfoDTO;
 import br.com.saudepraja.service.SchedulingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -84,6 +85,23 @@ public class SchedulingController {
 
         schedulingService.upload(schedulingId, file);
         return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CUSTOMER')")
+    @Operation(summary = "Upload files", description = "Upload files")
+    @GetMapping(path = "/{schedulingId}/upload", produces = "application/pdf")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "400", description = "Error"),
+            @ApiResponse(responseCode = "200", description = "Ok")
+    })
+    public ResponseEntity<byte[]> gerarGuia(@RequestBody @Valid SchedulingInfoDTO schedulingInfoDTO) {
+
+        byte[] pdf = schedulingService.buildServiceGuide(schedulingInfoDTO);
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "inline; filename=guia.pdf")
+                .body(pdf);
     }
 
 }
