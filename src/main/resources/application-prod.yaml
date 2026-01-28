@@ -27,12 +27,12 @@ springdoc:
     path: /swagger-ui.html
 server:
   max-http-request-header-size: 1000KB
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
-
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health
 security:
   jwt:
     secret: ${JWT_SECRET}
