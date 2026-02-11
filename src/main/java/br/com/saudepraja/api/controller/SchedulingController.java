@@ -7,7 +7,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +22,21 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/scheduling")
+@Tag(name = "/Scheduling", description = "Scheduling management")
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "400", description = "Error"),
+        @ApiResponse(responseCode = "403", description = "Forbidden"),
+        @ApiResponse(responseCode = "500", description = "Server Error")
+})
+@RequiredArgsConstructor
 public class SchedulingController {
 
-    @Autowired
     private SchedulingService schedulingService;
 
     @PreAuthorize("has ROLE('ROLE_CUSTOMER')")
     @Operation(summary = "Create a new Scheduling user authenticated", description = "Create a new Scheduling user authenticated")
     @PostMapping(path = "/users/authenticated", consumes = "application/json", produces = "application/json")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
-            @ApiResponse(responseCode = "400", description = "Invalid body"),
             @ApiResponse(responseCode = "201", description = "Created")
     })
     public ResponseEntity<SchedulingDTO> schedulingAuthenticatedUser(
@@ -51,8 +57,6 @@ public class SchedulingController {
     @Operation(summary = "Create a new Scheduling user unauthenticated", description = "Create a new Scheduling user unauthenticated")
     @PostMapping(path = "/users/unauthenticated", consumes = "application/json", produces = "application/json")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
-            @ApiResponse(responseCode = "400", description = "Invalid body"),
             @ApiResponse(responseCode = "201", description = "Created")
     })
     public ResponseEntity<SchedulingDTO> scheduling(
@@ -74,8 +78,6 @@ public class SchedulingController {
     @Operation(summary = "Upload files", description = "Upload files")
     @PutMapping(path = "/{schedulingId}/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/json")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
-            @ApiResponse(responseCode = "400", description = "Error"),
             @ApiResponse(responseCode = "200", description = "Ok")
     })
     public ResponseEntity<Void> upload(
@@ -91,8 +93,6 @@ public class SchedulingController {
     @Operation(summary = "Upload files", description = "Upload files")
     @GetMapping(path = "/{schedulingId}/upload", produces = "application/pdf")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
-            @ApiResponse(responseCode = "400", description = "Error"),
             @ApiResponse(responseCode = "200", description = "Ok")
     })
     public ResponseEntity<byte[]> gerarGuia(@RequestBody @Valid SchedulingInfoDTO schedulingInfoDTO) {

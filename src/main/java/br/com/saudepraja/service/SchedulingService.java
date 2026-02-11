@@ -12,6 +12,7 @@ import br.com.saudepraja.domain.model.entity.util.Storable;
 import br.com.saudepraja.domain.model.repository.SchedulingRepository;
 import br.com.saudepraja.domain.service.user.utils.SaudePrajaUtils;
 import br.com.saudepraja.infrastructure.StorageAmazonS3Service;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -24,21 +25,17 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
+@RequiredArgsConstructor
 public class SchedulingService {
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private SchedulingRepository schedulingRepository;
 
-    @Autowired
     private StorageAmazonS3Service storageAmazonS3Service;
 
-    @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    @Autowired
     private PdfWriter pdfWriter;
 
 

@@ -7,20 +7,20 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 
 @Service
+@RequiredArgsConstructor
 public class StorageAmazonS3Service {
 
     public static final long MAX_FILE_SIZE = 30 * 1024 * 1024; // 30MB
 
-    @Autowired
     private AmazonS3 amazonS3;
 
-    @Autowired
     private StorageProperties storageProperties;
 
     public InputStream recuperar(String nomeArquivo) {

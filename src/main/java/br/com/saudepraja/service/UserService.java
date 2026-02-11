@@ -4,6 +4,7 @@ import br.com.saudepraja.domain.exception.SaudePrajaBusinessException;
 import br.com.saudepraja.domain.model.entity.user.Users;
 import br.com.saudepraja.domain.model.entity.user.dto.UserDTO;
 import br.com.saudepraja.domain.model.repository.user.UsersRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,18 +15,15 @@ import java.util.Objects;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
     private UsersRepository usersRepository;
 
-    @Autowired
     private CustomerService customerService;
 
-    @Autowired
     private MedicService medicService;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public Users findUsersById(final Long userId) throws SaudePrajaBusinessException {

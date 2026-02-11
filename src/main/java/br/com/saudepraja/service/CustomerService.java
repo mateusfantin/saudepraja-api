@@ -6,6 +6,8 @@ import br.com.saudepraja.domain.model.entity.user.dto.UserDTO;
 import br.com.saudepraja.domain.model.entity.user.dto.UserDTO.CustomerDTO;
 import br.com.saudepraja.domain.model.repository.user.CustomerRepository;
 import br.com.saudepraja.domain.service.user.utils.SaudePrajaUtils;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -14,10 +16,10 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     protected void save(Users users, @Validated(UserDTO.DefaultCustomerGroup.class) CustomerDTO customerDTO) {
         Objects.requireNonNull(users, "Object type User.class don't be null");
