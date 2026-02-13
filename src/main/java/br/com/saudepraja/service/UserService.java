@@ -1,12 +1,12 @@
 package br.com.saudepraja.service;
 
-import br.com.saudepraja.domain.exception.SaudePrajaBusinessException;
-import br.com.saudepraja.domain.model.entity.user.Users;
-import br.com.saudepraja.domain.model.entity.user.dto.UserDTO;
-import br.com.saudepraja.domain.model.repository.user.UsersRepository;
+import br.com.saudepraja.domain.model.user.Users;
+import br.com.saudepraja.domain.dto.user.UserDTO;
+import br.com.saudepraja.domain.repository.user.UsersRepository;
+import br.com.saudepraja.exception.SaudePrajaException;
+import br.com.saudepraja.exception.SaudePrajaNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,8 +26,8 @@ public class UserService {
 
     private PasswordEncoder passwordEncoder;
 
-    public Users findUsersById(final Long userId) throws SaudePrajaBusinessException {
-        return usersRepository.findById(userId).orElseThrow(() -> new SaudePrajaBusinessException("Users not found. Id:" + userId));
+    public Users findUsersById(final Long userId) throws SaudePrajaNotFoundException {
+        return usersRepository.findById(userId).orElseThrow(() -> new SaudePrajaNotFoundException("Users not found. Id:" + userId));
     }
 
     public UserDTO save(UserDTO userDTO) {

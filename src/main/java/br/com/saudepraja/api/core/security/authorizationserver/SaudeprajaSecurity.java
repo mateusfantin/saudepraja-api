@@ -19,7 +19,7 @@ public class SaudeprajaSecurity {
 
     public static boolean haveCredentialsByRole(String role) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getAuthorities().stream().anyMatch(i -> i.getAuthority().equals("ROLE_ADMIN"));
+        return auth.getAuthorities().stream().anyMatch(i -> i.getAuthority().equals(role));
     }
 
     public static boolean isAdmin() {

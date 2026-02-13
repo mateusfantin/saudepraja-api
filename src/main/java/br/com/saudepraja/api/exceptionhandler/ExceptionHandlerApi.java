@@ -1,6 +1,7 @@
 package br.com.saudepraja.api.exceptionhandler;
 
-import br.com.saudepraja.domain.exception.SaudePrajaBusinessException;
+import br.com.saudepraja.exception.SaudePrajaBusinessException;
+import br.com.saudepraja.exception.SaudePrajaNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -30,6 +31,19 @@ public class ExceptionHandlerApi extends ResponseEntityExceptionHandler {
         return this.handleExceptionInternal(ex, problem, new HttpHeaders(), status, webRequest);
     }
 
+    @ExceptionHandler(SaudePrajaNotFoundException.class)
+    public ResponseEntity<?> handleSaudePrajaNotFoundException(SaudePrajaNotFoundException ex, WebRequest webRequest) {
+        HttpStatusCode status = HttpStatusCode.valueOf(404);
+        String detail = ex.getMessage();
+
+        Problem problem = Problem.builder()
+                .status(status.value())
+                .detail(detail)
+                .dataHora(LocalDateTime.now())
+                .build();
+
+        return this.handleExceptionInternal(ex, problem, new HttpHeaders(), status, webRequest);
+    }
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(

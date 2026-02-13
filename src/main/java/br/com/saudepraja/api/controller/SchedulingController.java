@@ -1,7 +1,7 @@
 package br.com.saudepraja.api.controller;
 
-import br.com.saudepraja.domain.model.entity.order.SchedulingDTO;
-import br.com.saudepraja.domain.model.entity.order.SchedulingInfoDTO;
+import br.com.saudepraja.domain.dto.order.SchedulingDTO;
+import br.com.saudepraja.domain.dto.order.SchedulingInfoDTO;
 import br.com.saudepraja.service.SchedulingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -91,13 +90,16 @@ public class SchedulingController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CUSTOMER')")
     @Operation(summary = "Upload files", description = "Upload files")
-    @GetMapping(path = "/{schedulingId}/upload", produces = "application/pdf")
+    @GetMapping(path = "/{schedulingId}/guide", produces = "application/pdf")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ok")
     })
-    public ResponseEntity<byte[]> gerarGuia(@RequestBody @Valid SchedulingInfoDTO schedulingInfoDTO) {
+    public ResponseEntity<byte[]> gerarGuia(
+            @Parameter(name = "schedulingId", description = "Id of scheduling", required = true)
+            @PathVariable(name = "schedulingId", required = true) final Long schedulingId
+    ) {
 
-        byte[] pdf = schedulingService.buildServiceGuide(schedulingInfoDTO);
+        byte[] pdf = schedulingService.generateServiceGuidePdf(schedulingId);
 
         return ResponseEntity.ok()
                 .header("Content-Disposition", "inline; filename=guia.pdf")

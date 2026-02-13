@@ -1,9 +1,9 @@
 package br.com.saudepraja.service.user;
 
-import br.com.saudepraja.domain.model.entity.user.dto.UserDTO;
-import br.com.saudepraja.domain.model.entity.user.dto.UserDTO.CustomerDTO;
+import br.com.saudepraja.domain.dto.user.UserDTO;
+import br.com.saudepraja.domain.dto.user.UserDTO.CustomerDTO;
 
-import br.com.saudepraja.domain.model.entity.user.enumeration.UserTypeEnum;
+import br.com.saudepraja.domain.model.enumeration.UserTypeEnum;
 
 public class UserDTOMock {
 

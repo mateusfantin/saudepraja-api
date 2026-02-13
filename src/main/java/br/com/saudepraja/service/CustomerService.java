@@ -1,14 +1,12 @@
 package br.com.saudepraja.service;
 
-import br.com.saudepraja.domain.model.entity.user.Customer;
-import br.com.saudepraja.domain.model.entity.user.Users;
-import br.com.saudepraja.domain.model.entity.user.dto.UserDTO;
-import br.com.saudepraja.domain.model.entity.user.dto.UserDTO.CustomerDTO;
-import br.com.saudepraja.domain.model.repository.user.CustomerRepository;
-import br.com.saudepraja.domain.service.user.utils.SaudePrajaUtils;
-import lombok.AllArgsConstructor;
+import br.com.saudepraja.domain.model.user.Customer;
+import br.com.saudepraja.domain.model.user.Users;
+import br.com.saudepraja.domain.dto.user.UserDTO;
+import br.com.saudepraja.domain.dto.user.UserDTO.CustomerDTO;
+import br.com.saudepraja.domain.repository.user.CustomerRepository;
+import br.com.saudepraja.domain.service.SaudePrajaUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

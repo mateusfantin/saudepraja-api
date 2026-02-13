@@ -1,7 +1,7 @@
 package br.com.saudepraja.api.core.security.authorizationserver;
 
-import br.com.saudepraja.domain.model.entity.user.Users;
-import br.com.saudepraja.domain.model.repository.user.UsersRepository;
+import br.com.saudepraja.domain.model.user.Users;
+import br.com.saudepraja.domain.repository.user.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetailsService;

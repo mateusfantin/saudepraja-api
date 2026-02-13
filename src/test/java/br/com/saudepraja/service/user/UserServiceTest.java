@@ -1,9 +1,9 @@
 package br.com.saudepraja.service.user;
 
-import br.com.saudepraja.domain.model.entity.user.Users;
-import br.com.saudepraja.domain.model.entity.user.dto.UserDTO;
-import br.com.saudepraja.domain.model.entity.user.enumeration.UserTypeEnum;
-import br.com.saudepraja.domain.model.repository.user.UsersRepository;
+import br.com.saudepraja.domain.model.user.Users;
+import br.com.saudepraja.domain.dto.user.UserDTO;
+import br.com.saudepraja.domain.model.enumeration.UserTypeEnum;
+import br.com.saudepraja.domain.repository.user.UsersRepository;
 import br.com.saudepraja.service.CustomerService;
 import br.com.saudepraja.service.UserService;
 import org.junit.jupiter.api.Assertions;

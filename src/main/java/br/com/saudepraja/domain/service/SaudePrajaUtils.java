@@ -1,0 +1,30 @@
+package br.com.saudepraja.domain.service;
+
+import org.springframework.format.datetime.DateFormatter;
+
+import java.security.SecureRandom;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+
+public class SaudePrajaUtils {
+
+    public static final String dayMonthYearBRType = "dd/MM/YYYY";
+    public static final String dayMontYearHourMinBRType = "dd/MM/yyyy HH:mm";
+
+
+    public static LocalDate stringToLocalDate(String data, String format) {
+        Objects.requireNonNull(data, "Please provide Data");
+        Objects.requireNonNull(format, "Please provide format");
+        return LocalDate.parse(data, DateTimeFormatter.ofPattern(format));
+    }
+
+    public static String LocalDateTimeToString(LocalDateTime data, String format) {
+        Objects.requireNonNull(data, "Please provide Data");
+        Objects.requireNonNull(format, "Please provide format");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        return data.format(formatter);
+    }
+
+}

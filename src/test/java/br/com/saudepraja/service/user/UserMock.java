@@ -1,8 +1,8 @@
 package br.com.saudepraja.service.user;
 
-import br.com.saudepraja.domain.model.entity.user.Customer;
-import br.com.saudepraja.domain.model.entity.user.Users;
-import br.com.saudepraja.domain.model.entity.user.enumeration.UserTypeEnum;
+import br.com.saudepraja.domain.model.user.Customer;
+import br.com.saudepraja.domain.model.user.Users;
+import br.com.saudepraja.domain.model.enumeration.UserTypeEnum;
 
 import java.time.LocalDate;
 

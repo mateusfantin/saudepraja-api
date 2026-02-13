@@ -1,6 +1,6 @@
 package br.com.saudepraja.api.core.security.authorizationserver;
 
-import br.com.saudepraja.domain.model.entity.user.Users;
+import br.com.saudepraja.domain.model.user.Users;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

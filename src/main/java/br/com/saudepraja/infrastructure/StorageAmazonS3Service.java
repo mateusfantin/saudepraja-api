@@ -1,14 +1,13 @@
 package br.com.saudepraja.infrastructure;
 
 import br.com.saudepraja.api.core.storage.StorageProperties;
-import br.com.saudepraja.domain.exception.SaudePrajaBusinessException;
-import br.com.saudepraja.domain.model.entity.util.Storable;
+import br.com.saudepraja.exception.SaudePrajaBusinessException;
+import br.com.saudepraja.domain.model.util.Storable;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
